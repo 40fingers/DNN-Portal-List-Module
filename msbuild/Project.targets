@@ -24,7 +24,7 @@
     <svn></svn>
     <BinDir>$(MSBuildProjectDirectory)\bin</BinDir>
     <DotNetNukeDir>$(MSBuildProjectDirectory)\..\..\..</DotNetNukeDir>
-    <DotNetNukeVer>4</DotNetNukeVer>
+    <DotNetNukeVer>9</DotNetNukeVer>
   </PropertyGroup>
 
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" Condition="Exists('$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets')"/>
