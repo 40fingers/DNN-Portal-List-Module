@@ -121,89 +121,77 @@ Public Class View
 
         For i = iStart To iEnd
 
-            Dim showToAll As Boolean = False
+            Dim homePageAccessibleToAllUsers As Boolean = False
 
             'Get the Sortportals original index
             tempSortPortal = alSortPortals(i)
             iOrigIndex = tempSortPortal.OriginalIndex
 
             oPortal = Portals(iOrigIndex)
-            If IsAllowedPortal(oPortal) Then
+            Dim sPortalTemplate As String = objConfig.ItemTemplate
+            Dim sSkinSrc As String = String.Empty
 
 
-                Dim sPortalTemplate As String = objConfig.ItemTemplate
-                Dim sSkinSrc As String = String.Empty
+            sSkinSrc = PortalController.GetPortalSetting("DefaultPortalSkin", oPortal.PortalID, "")
+
+            'Get First page skin
+            If oPortal.HomeTabId > 0 Then
+
+                Try
+                    oTab = oTabC.GetTab(oPortal.HomeTabId, oPortal.PortalID, True)
 
 
-                sSkinSrc = PortalController.GetPortalSetting("DefaultPortalSkin", oPortal.PortalID, "")
+                    'Check if All users has right to view the home page..
+                    Dim oTPC As DotNetNuke.Security.Permissions.TabPermissionCollection = oTab.TabPermissions
 
-                'Get First page skin
-                If oPortal.HomeTabId > 0 Then
-
-                    Try
-                        oTab = oTabC.GetTab(oPortal.HomeTabId, oPortal.PortalID, True)
-
-
-                        'Check if All users has right to view the home page..
-                        Dim oTPC As DotNetNuke.Security.Permissions.TabPermissionCollection = oTab.TabPermissions
-
-                        For Each oTP As DotNetNuke.Security.Permissions.TabPermissionInfo In oTPC
-
-                            If oTP.RoleName = "All Users" And oTP.AllowAccess Then
-
-                                showToAll = True
-                                Exit For
-                            Else
-
-                                showToAll = False
-                                Exit For
-
-
-                            End If
-
-                        Next
-                        If oTab.SkinSrc.Trim > "" Then
-                            sSkinSrc = oTab.SkinSrc
+                    For Each oTP As DotNetNuke.Security.Permissions.TabPermissionInfo In oTPC
+                        If String.Equals(oTP.RoleName, "All Users", StringComparison.InvariantCultureIgnoreCase) AndAlso oTP.AllowAccess Then
+                            homePageAccessibleToAllUsers = True
+                            Exit For
                         End If
+                    Next
 
-                    Catch ex As Exception
-                        '' The home page cannot be found
-                    End Try
-
-                End If
-
-                'What if there is no home page? Add code to get the skin of the first page of the portal
-                Dim sIconFilename As String = GetSkinImage(sSkinSrc, oPortal)
-
-                If Not sIconFilename = String.Empty Then
-
-                    If objConfig.ScaleImages Then
-                        sIconFilename = SaveImage(sIconFilename, objConfig.IconPath.Replace("[P]", PortalSettings.HomeDirectory), objConfig.ImgWidth, objConfig.ImgHeight, String.Format("P{0:000}_", oPortal.PortalID))
+                    If oTab.SkinSrc.Trim > "" Then
+                        sSkinSrc = oTab.SkinSrc
                     End If
 
-                End If
+                Catch ex As Exception
+                    '' The home page cannot be found
+                End Try
 
+            End If
 
-                If showToAll Or DotNetNuke.Security.Permissions.TabPermissionController.CanAddContentToPage Then
+            'What if there is no home page? Add code to get the skin of the first page of the portal
+            Dim sIconFilename As String = GetSkinImage(sSkinSrc, oPortal)
 
+            If Not sIconFilename = String.Empty Then
 
-                    Dim strPortalAlias = FormatPortalAliases(oPortal.PortalID)
-
-                    sPortalTemplate = sPortalTemplate.Replace("[Category]", tempSortPortal.Category)
-                    sPortalTemplate = sPortalTemplate.Replace("[PortalAlias]", strPortalAlias)
-                    sPortalTemplate = sPortalTemplate.Replace("[PortalName]", oPortal.PortalName)
-                    sPortalTemplate = sPortalTemplate.Replace("[PortalSkinImg]", sIconFilename)
-                    sPortalTemplate = sPortalTemplate.Replace("[PortalFooterText]", oPortal.FooterText)
-                    sPortalTemplate = sPortalTemplate.Replace("[PortalDescription]", oPortal.Description)
-                    sPortalTemplate = sPortalTemplate.Replace("[PortalId]", oPortal.PortalID)
-
-                    dictPortals("All") &= sPortalTemplate
-                    dictPortals(tempSortPortal.Category) &= sPortalTemplate
-
-
+                If objConfig.ScaleImages Then
+                    sIconFilename = SaveImage(sIconFilename, objConfig.IconPath.Replace("[P]", PortalSettings.HomeDirectory), objConfig.ImgWidth, objConfig.ImgHeight, String.Format("P{0:000}_", oPortal.PortalID))
                 End If
 
             End If
+
+
+            If homePageAccessibleToAllUsers Or DotNetNuke.Security.Permissions.TabPermissionController.CanAddContentToPage Then
+
+
+                Dim strPortalAlias = FormatPortalAliases(oPortal.PortalID)
+
+                sPortalTemplate = sPortalTemplate.Replace("[Category]", tempSortPortal.Category)
+                sPortalTemplate = sPortalTemplate.Replace("[PortalAlias]", strPortalAlias)
+                sPortalTemplate = sPortalTemplate.Replace("[PortalName]", oPortal.PortalName)
+                sPortalTemplate = sPortalTemplate.Replace("[PortalSkinImg]", sIconFilename)
+                sPortalTemplate = sPortalTemplate.Replace("[PortalFooterText]", oPortal.FooterText)
+                sPortalTemplate = sPortalTemplate.Replace("[PortalDescription]", oPortal.Description)
+                sPortalTemplate = sPortalTemplate.Replace("[PortalId]", oPortal.PortalID)
+
+                dictPortals("All") &= sPortalTemplate
+                dictPortals(tempSortPortal.Category) &= sPortalTemplate
+
+
+            End If
+
         Next
 
 
@@ -506,57 +494,55 @@ Public Class View
 
     Private Function IsAllowedPortal(ByVal oPortal As DotNetNuke.Entities.Portals.PortalInfo) As Boolean
 
-        Dim boolShow = True
+        Dim passesFilters = True
 
         'Check if this portal should be included
-
         If objConfig.Filter Then
 
-
+            ' If no filter criteria specified, don't filter at all
+            If (objConfig.PortalIdFilter Is Nothing OrElse objConfig.PortalIdFilter.Trim = "") _
+               AndAlso (objConfig.PortalAliasFilter Is Nothing OrElse objConfig.PortalAliasFilter.Trim = "") _
+               AndAlso (objConfig.PortalDescriptionFilter Is Nothing OrElse objConfig.PortalDescriptionFilter.Trim = "") _
+               AndAlso (objConfig.PortalKeywordFilter Is Nothing OrElse objConfig.PortalKeywordFilter.Trim = "") Then
+                Return True
+            End If
 
             'Check portal id
             For Each sPortalId As String In objConfig.PortalIdFilter.Split(",")
                 If sPortalId.Trim = oPortal.PortalID.ToString Then
-                    boolShow = False
+                    passesFilters = False
                 End If
             Next
-
 
             'Check PortalAlias Regex
             Try
                 If objConfig.PortalAliasFilter > "" And Not Regex.IsMatch(FormatPortalAliases(oPortal.PortalID), objConfig.PortalAliasFilter, RegexOptions.IgnoreCase) Then
-                    boolShow = False
+                    passesFilters = False
                 End If
             Catch ex As Exception
-
             End Try
-
 
             'Check Description Regex
             Try
                 If objConfig.PortalDescriptionFilter > "" And Not Regex.IsMatch(oPortal.Description, objConfig.PortalDescriptionFilter, RegexOptions.IgnoreCase) Then
-                    boolShow = False
+                    passesFilters = False
                 End If
             Catch ex As Exception
-
             End Try
 
             'Check Keyword Regex
             Try
                 If objConfig.PortalKeywordFilter > "" And Not Regex.IsMatch(oPortal.KeyWords, objConfig.PortalKeywordFilter, RegexOptions.IgnoreCase) Then
-                    boolShow = False
+                    passesFilters = False
                 End If
             Catch ex As Exception
             End Try
         Else
             'No filtering
             Return True
-
-
         End If
 
-        Return (Not (boolShow Xor objConfig.FilterInclude))
-
+        Return (Not (passesFilters Xor objConfig.FilterInclude))
 
     End Function
 
