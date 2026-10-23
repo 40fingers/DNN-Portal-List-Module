@@ -195,6 +195,7 @@ Public Class View
                 sPortalTemplate = sPortalTemplate.Replace("[PortalId]", oPortal.PortalID)
                 sPortalTemplate = sPortalTemplate.Replace("[SkinSrc]", sSkinSrc)
                 sPortalTemplate = sPortalTemplate.Replace("[SkinSrcFrom]", SkinSrcFrom)
+                sPortalTemplate = sPortalTemplate.Replace("[ActiveClass]", If(oPortal.PortalID = PortalId, "current-portal", ""))
 
 
 

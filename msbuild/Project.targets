@@ -109,6 +109,8 @@
     <!-- get files for resource zip-->
     <CreateItem	Include="$(MSBuildProjectDirectory)\**"
                 Exclude="$(MSBuildProjectDirectory)\**\.svn\**;
+						                  $(MSBuildProjectDirectory)\**\.vs\**;
+						                  $(MSBuildProjectDirectory)\**\.git\**;
 						                  $(MSBuildProjectDirectory)\_Installation\**;
 						                  $(MSBuildProjectDirectory)\**\_ReSharper*\**;
 						                  $(MSBuildProjectDirectory)\**\obj\**;
