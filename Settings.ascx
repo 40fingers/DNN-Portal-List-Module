@@ -62,6 +62,13 @@
        </tr>
     <tr>
         <td class="SubHead" valign="top">
+            <dnn:label id="lblPortalIdFilter" controlname="lblPortalIdFilter" runat="server" Text="PortalId Filter" suffix=":" /></td>
+         <td>
+       <asp:TextBox ID="txtPortalIdFilter" runat="server" CssClass="NormalTextBox PortalIdFilter"></asp:TextBox>
+		</td>
+       </tr>
+    <tr>
+        <td class="SubHead" valign="top">
             <dnn:label id="lblPortalAliasFilter" controlname="lblPortalAliasFilter" runat="server" Text="Portal Alias Filter" suffix=":" /></td>
          <td>
        <asp:TextBox ID="txtPortalAliasFilter" runat="server" CssClass="NormalTextBox PortalAliasFilter"></asp:TextBox>

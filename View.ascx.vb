@@ -526,11 +526,16 @@ Public Class View
             End If
 
             'Check portal id
-            For Each sPortalId As String In objConfig.PortalIdFilter.Split(",")
-                If sPortalId.Trim = oPortal.PortalID.ToString Then
-                    passesFilters = False
-                End If
-            Next
+            If objConfig.PortalIdFilter > "" Then
+                Dim bIdMatch As Boolean = False
+                For Each sPortalId As String In objConfig.PortalIdFilter.Split(","c)
+                    If sPortalId.Trim = oPortal.PortalID.ToString Then
+                        bIdMatch = True
+                        Exit For
+                    End If
+                Next
+                If Not bIdMatch Then passesFilters = False
+            End If
 
             'Check PortalAlias Regex
             Try

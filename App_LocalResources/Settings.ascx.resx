@@ -127,7 +127,7 @@
     <value>If True Show filtered Portals, if False hide them</value>
   </data>
   <data name="lblFilterMode.Text" xml:space="preserve">
-    <value>Filter Show</value>
+    <value>Filter Mode</value>
   </data>
   <data name="lblItemTemplate.Text" xml:space="preserve">
     <value>Item Template</value>
@@ -137,6 +137,12 @@
   </data>
   <data name="lblPortal.Text" xml:space="preserve">
     <value>Portal Filters</value>
+  </data>
+  <data name="lblPortalIdFilter.Help" xml:space="preserve">
+    <value>Comma separated list of Portal IDs (e.g. 0,3,7)</value>
+  </data>
+  <data name="lblPortalIdFilter.Text" xml:space="preserve">
+    <value>PortalId Filter</value>
   </data>
   <data name="lblPortalAliasFilter.Help" xml:space="preserve">
     <value>Regular expression for Portal Alias</value>

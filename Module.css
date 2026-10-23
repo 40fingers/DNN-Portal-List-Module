@@ -103,3 +103,13 @@
 		grid-template-columns: repeat(6, 1fr);
 	}
 }
+
+/* Settings screen */
+.ffplSettings .dnnLabel {
+	text-align: left;
+	min-width: 150px;
+}
+
+.ffplSettings .dnnCheckbox {
+	justify-content: flex-start;
+}
