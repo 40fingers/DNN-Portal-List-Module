@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="RootTemplate.Text" xml:space="preserve">
-    <value>&lt;ul class="PortalListItems IconsText  IconsTextMd"&gt;[Portals]&lt;/ul&gt;</value>
+    <value>[FilterWarning]&lt;ul class="PortalListItems IconsText  IconsTextMd"&gt;[Portals]&lt;/ul&gt;</value>
   </data>
   <data name="ItemTemplate.Text" xml:space="preserve">
     <value>&lt;li class="PortalListItem [ActiveClass]"&gt;&lt;a href="[PortalAlias]" &gt;&lt;div class="plImg"&gt;&lt;img class="PortalImage" src="[PortalSkinImg]" alt="[PortalName]" /&gt;&lt;/div&gt;&lt;div class="plText"&gt;[PortalName]&lt;/div&gt;&lt;/a&gt;&lt;/li&gt;</value>
