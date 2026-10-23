@@ -1,4 +1,4 @@
-﻿.DnnModule-40FingersPortalList{
+﻿.DnnModule-40FingersPortalList {
 	container-type: inline-size;
 }
 
@@ -25,10 +25,10 @@
 	grid-template-columns: 1fr;
 }
 
-.DnnModule-40FingersPortalList .PortalListItem > a {
+.DnnModule-40FingersPortalList .PortalListItem>a {
 	display: flex;
 	flex-direction: column;
-	
+
 }
 
 .DnnModule-40FingersPortalList .plText {
@@ -61,21 +61,21 @@
 	display: none;
 }
 
+.DnnModule-40FingersPortalList .current-portal .plImg {
+	border: solid 3px #d00;
+}
+
 #Body .DnnModule-40FingersPortalList img {
 	margin: 0;
 	padding: 0;
 	border: none;
-<<<<<<< HEAD
-	box-shadow: 0 0 10px #ccc;
-=======
->>>>>>> 530e94cc9aad001e805f3e75ad4e84f3810d5c75
 }
 
 
 /* Responsive */
 
 @container (min-width: 480px) and (max-width: 767px) {
-	.DnnModule-40FingersPortalList .IconsText  {
+	.DnnModule-40FingersPortalList .IconsText {
 		grid-template-columns: repeat(2, 1fr);
 	}
 
@@ -85,11 +85,11 @@
 }
 
 @container (min-width: 768px) and (max-width: 979px) {
-	.DnnModule-40FingersPortalList .IconsText  {
+	.DnnModule-40FingersPortalList .IconsText {
 		grid-template-columns: repeat(3, 1fr);
 	}
 
-	.DnnModule-40FingersPortalList .IconsTextSm  {
+	.DnnModule-40FingersPortalList .IconsTextSm {
 		grid-template-columns: repeat(4, 1fr);
 	}
 }
