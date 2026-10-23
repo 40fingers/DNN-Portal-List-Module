@@ -37,6 +37,7 @@ Public Class Settings
 
         chkFilter.Checked = objConfig.Filter
         chkFilterModeInclude.Checked = objConfig.FilterInclude
+        txtPortalIdFilter.Text = objConfig.PortalIdFilter
         txtPortalAliasFilter.Text = objConfig.PortalAliasFilter
         txtPortalDescriptionFilter.Text = objConfig.PortalDescriptionFilter
         txtPortalKeywordFilter.Text = objConfig.PortalKeywordFilter
@@ -58,6 +59,7 @@ Public Class Settings
         objConfig.Filter = chkFilter.Checked
         objConfig.FilterInclude = chkFilterModeInclude.Checked
 
+        objConfig.PortalIdFilter = txtPortalIdFilter.Text
         objConfig.PortalAliasFilter = txtPortalAliasFilter.Text
         objConfig.PortalDescriptionFilter = txtPortalDescriptionFilter.Text
         objConfig.PortalKeywordFilter = txtPortalKeywordFilter.Text

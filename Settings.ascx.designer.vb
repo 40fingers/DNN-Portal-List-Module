@@ -122,6 +122,24 @@ Partial Public Class Settings
     Protected WithEvents lblPortal As Global.System.Web.UI.UserControl
 
     '''<summary>
+    '''lblPortalIdFilter control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPortalIdFilter As Global.System.Web.UI.UserControl
+
+    '''<summary>
+    '''txtPortalIdFilter control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPortalIdFilter As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''lblPortalAliasFilter control.
     '''</summary>
     '''<remarks>
