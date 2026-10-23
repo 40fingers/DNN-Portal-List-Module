@@ -117,4 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FilterWarning.Text" xml:space="preserve">
+    <value><![CDATA[<div class="ffpl-filter-warning">Filtered list showing: {0} / {1} Portal(s)</div>]]></value>
+    <comment>{0} = portals shown, {1} = total portals, {2} = portals hidden by the filter</comment>
+  </data>
 </root>

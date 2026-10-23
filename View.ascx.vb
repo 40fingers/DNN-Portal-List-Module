@@ -80,6 +80,10 @@ Public Class View
         'Create arraylist
         Dim alSortPortals As New ArrayList
 
+        ' Number of portals hidden by the filter, shown in the [FilterWarning] token
+        Dim iFilteredOut As Integer = 0
+        Dim iShown As Integer = 0
+
         'Get all portals and add them to the arraylist
         For i = 0 To Portals.Count - 1
             oPortal = Portals(i)
@@ -91,6 +95,8 @@ Public Class View
 
                 SortPortal.Add(oPortal.PortalName, oPortal.PortalID, portCategory, i)
                 alSortPortals.Add(SortPortal)
+            Else
+                iFilteredOut += 1
             End If
 
         Next
@@ -199,6 +205,7 @@ Public Class View
 
 
 
+                iShown += 1
                 dictPortals("All") &= sPortalTemplate
                 dictPortals(tempSortPortal.Category) &= sPortalTemplate
 
@@ -229,6 +236,18 @@ Public Class View
             Next
         Else
             sPortals = objConfig.RootTemplate.Replace("[Portals]", dictPortals("All"))
+        End If
+
+        ' Filter warning is only shown in edit mode, and only once even if the RootTemplate repeats per category
+        Dim sFilterWarning As String = String.Empty
+        If IsEditable AndAlso HasActiveFilter() Then
+            Dim iTotalPortals As Integer = PortalController.Instance.GetPortals().Count
+            sFilterWarning = String.Format(Localization.GetString("FilterWarning.Text", LocalResourceFile), iShown, iTotalPortals, iFilteredOut)
+        End If
+
+        Dim iWarningPos As Integer = sPortals.IndexOf("[FilterWarning]")
+        If iWarningPos >= 0 Then
+            sPortals = sPortals.Substring(0, iWarningPos) & sFilterWarning & sPortals.Substring(iWarningPos + "[FilterWarning]".Length).Replace("[FilterWarning]", "")
         End If
 
         If sPortals = "" Then
@@ -510,20 +529,25 @@ Public Class View
     End Function
 
 
+    ' True when filtering is enabled and at least one filter criterion is specified
+    Private Function HasActiveFilter() As Boolean
+
+        If Not objConfig.Filter Then Return False
+
+        Return Not ((objConfig.PortalIdFilter Is Nothing OrElse objConfig.PortalIdFilter.Trim = "") _
+               AndAlso (objConfig.PortalAliasFilter Is Nothing OrElse objConfig.PortalAliasFilter.Trim = "") _
+               AndAlso (objConfig.PortalDescriptionFilter Is Nothing OrElse objConfig.PortalDescriptionFilter.Trim = "") _
+               AndAlso (objConfig.PortalKeywordFilter Is Nothing OrElse objConfig.PortalKeywordFilter.Trim = ""))
+
+    End Function
+
+
     Private Function IsAllowedPortal(ByVal oPortal As DotNetNuke.Entities.Portals.PortalInfo) As Boolean
 
         Dim passesFilters = True
 
         'Check if this portal should be included
-        If objConfig.Filter Then
-
-            ' If no filter criteria specified, don't filter at all
-            If (objConfig.PortalIdFilter Is Nothing OrElse objConfig.PortalIdFilter.Trim = "") _
-               AndAlso (objConfig.PortalAliasFilter Is Nothing OrElse objConfig.PortalAliasFilter.Trim = "") _
-               AndAlso (objConfig.PortalDescriptionFilter Is Nothing OrElse objConfig.PortalDescriptionFilter.Trim = "") _
-               AndAlso (objConfig.PortalKeywordFilter Is Nothing OrElse objConfig.PortalKeywordFilter.Trim = "") Then
-                Return True
-            End If
+        If HasActiveFilter() Then
 
             'Check portal id
             If objConfig.PortalIdFilter > "" Then
