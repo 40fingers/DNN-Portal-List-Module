@@ -36,6 +36,7 @@ Public Class Settings
         txtMaxPortals.Text = objConfig.MaxPortals.ToString()
 
         chkFilter.Checked = objConfig.Filter
+        chkFilterOnlyNonEditors.Checked = objConfig.FilterOnlyNonEditors
         chkFilterModeInclude.Checked = objConfig.FilterInclude
         txtPortalIdFilter.Text = objConfig.PortalIdFilter
         txtPortalAliasFilter.Text = objConfig.PortalAliasFilter
@@ -57,6 +58,7 @@ Public Class Settings
         objConfig.MaxPortals = Val(txtMaxPortals.Text)
 
         objConfig.Filter = chkFilter.Checked
+        objConfig.FilterOnlyNonEditors = chkFilterOnlyNonEditors.Checked
         objConfig.FilterInclude = chkFilterModeInclude.Checked
 
         objConfig.PortalIdFilter = txtPortalIdFilter.Text

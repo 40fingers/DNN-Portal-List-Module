@@ -84,19 +84,24 @@ Public Class View
         Dim iFilteredOut As Integer = 0
         Dim iShown As Integer = 0
 
+        ' Editors still see filtered portals (marked with the "filtered" class) when the filter only applies to non-editors
+        Dim bShowFilteredPortals As Boolean = objConfig.FilterOnlyNonEditors AndAlso IsEditable
+
         'Get all portals and add them to the arraylist
         For i = 0 To Portals.Count - 1
             oPortal = Portals(i)
 
-            If IsAllowedPortal(oPortal) Then 'Exclude some portals
+            Dim bAllowed As Boolean = IsAllowedPortal(oPortal)
+            If Not bAllowed Then iFilteredOut += 1
+
+            If bAllowed OrElse bShowFilteredPortals Then
                 Dim SortPortal As New SortPortal
 
                 Dim portCategory As String = oCatFilters.GetCategory(oPortal.PortalName)
 
                 SortPortal.Add(oPortal.PortalName, oPortal.PortalID, portCategory, i)
+                SortPortal.IsFiltered = Not bAllowed
                 alSortPortals.Add(SortPortal)
-            Else
-                iFilteredOut += 1
             End If
 
         Next
@@ -202,10 +207,11 @@ Public Class View
                 sPortalTemplate = sPortalTemplate.Replace("[SkinSrc]", sSkinSrc)
                 sPortalTemplate = sPortalTemplate.Replace("[SkinSrcFrom]", SkinSrcFrom)
                 sPortalTemplate = sPortalTemplate.Replace("[ActiveClass]", If(oPortal.PortalID = PortalId, "current-portal", ""))
+                sPortalTemplate = sPortalTemplate.Replace("[FilteredClass]", If(tempSortPortal.IsFiltered, "filtered", ""))
 
 
-
-                iShown += 1
+                ' iShown counts what normal visitors would see, so filtered items shown to editors are excluded
+                If Not tempSortPortal.IsFiltered Then iShown += 1
                 dictPortals("All") &= sPortalTemplate
                 dictPortals(tempSortPortal.Category) &= sPortalTemplate
 
@@ -604,6 +610,8 @@ Public Class View
         Public PortalId As Integer
         Public Category As String
         Public OriginalIndex As Integer
+        ' True when the portal would be hidden by the filter for normal visitors
+        Public IsFiltered As Boolean
 
 
         Public Sub Add(ByVal PortalName As String, ByVal PortalId As Integer, ByVal Category As String, ByVal OriginalIndex As Integer)

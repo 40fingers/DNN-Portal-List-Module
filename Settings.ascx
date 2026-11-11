@@ -46,6 +46,15 @@
 		</td>
        </tr>
 
+        <tr>
+        <td class="SubHead" valign="top">
+            <dnn:label id="lblFilterOnlyNonEditors" controlname="chkFilterOnlyNonEditors" runat="server" Text="Filter only for non-editors" suffix=":" />
+        </td>
+         <td>
+              <asp:CheckBox ID="chkFilterOnlyNonEditors" runat="server" />
+		</td>
+       </tr>
+
 
         <tr>
         <td class="SubHead" valign="top">
