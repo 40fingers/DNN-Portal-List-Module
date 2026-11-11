@@ -95,6 +95,24 @@ Partial Public Class Settings
     Protected WithEvents chkFilter As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''lblFilterOnlyNonEditors control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFilterOnlyNonEditors As Global.System.Web.UI.UserControl
+
+    '''<summary>
+    '''chkFilterOnlyNonEditors control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chkFilterOnlyNonEditors As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''lblFilterMode control.
     '''</summary>
     '''<remarks>

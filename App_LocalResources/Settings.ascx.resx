@@ -123,6 +123,12 @@
   <data name="lblFilter.Text" xml:space="preserve">
     <value>Filter</value>
   </data>
+  <data name="lblFilterOnlyNonEditors.Help" xml:space="preserve">
+    <value>If checked, the filter only applies to users without edit rights. Editors see all portals; portals that would be filtered get the CSS class "filtered" (use the [FilteredClass] token in the Item Template).</value>
+  </data>
+  <data name="lblFilterOnlyNonEditors.Text" xml:space="preserve">
+    <value>Filter only for non-editors</value>
+  </data>
   <data name="lblFilterMode.Help" xml:space="preserve">
     <value>If True Show filtered Portals, if False hide them</value>
   </data>

@@ -121,7 +121,7 @@
     <value>[FilterWarning]&lt;ul class="PortalListItems IconsText  IconsTextMd"&gt;[Portals]&lt;/ul&gt;</value>
   </data>
   <data name="ItemTemplate.Text" xml:space="preserve">
-    <value>&lt;li class="PortalListItem [ActiveClass]"&gt;&lt;a href="[PortalAlias]" &gt;&lt;div class="plImg"&gt;&lt;img class="PortalImage" src="[PortalSkinImg]" alt="[PortalName]" /&gt;&lt;/div&gt;&lt;div class="plText"&gt;[PortalName]&lt;/div&gt;&lt;/a&gt;&lt;/li&gt;</value>
+    <value>&lt;li class="PortalListItem [ActiveClass] [FilteredClass]"&gt;&lt;a href="[PortalAlias]" &gt;&lt;div class="plImg"&gt;&lt;img class="PortalImage" src="[PortalSkinImg]" alt="[PortalName]" /&gt;&lt;/div&gt;&lt;div class="plText"&gt;[PortalName]&lt;/div&gt;&lt;/a&gt;&lt;/li&gt;</value>
   </data>
   <data name="Crop.Text" xml:space="preserve">
     <value>False</value>
@@ -135,6 +135,10 @@
   <data name="Filter.Text" xml:space="preserve">
     <value>False</value>
     <comment>If True Filter the results</comment>
+  </data>
+  <data name="FilterOnlyNonEditors.Text" xml:space="preserve">
+    <value>True</value>
+    <comment>If True, the filter only applies to users without edit rights</comment>
   </data>
   <data name="FilterInclude.Text" xml:space="preserve">
     <value>True</value>

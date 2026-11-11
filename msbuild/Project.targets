@@ -221,11 +221,12 @@
      ZipFileName="$(InstallDir)\$(Major).$(Minor).$(Build)\Documentation.zip" />
 
   </Target>
-  <Target Name="CopyFilesToDotNetNuke">
+  <!-- Copy the assembly that was just built (not whatever sits in $(BinDir), which may be a stale build of another configuration).
+       Skipped when the build output already is the DNN bin dir (Debug), otherwise an old DLL would overwrite the fresh one. -->
+  <Target Name="CopyFilesToDotNetNuke" Condition="'$([System.IO.Path]::GetFullPath($(TargetDir)))' != '$([System.IO.Path]::GetFullPath($(DotNetNukeDir)\bin\))'">
     <!-- Copy assemblies and Debug Info to DNN Bin Dir -->
     <Message Text="MSBUILD: copying @(Assemblies) to $(DotNetNukeDir)\bin\" Importance="high"></Message>
-    <CreateItem Include="$(BinDir)\*.pdb;$(BinDir)\*.dll;
-                            $(BinDir)\*.pdb;$(BinDir)\*.pdb">
+    <CreateItem Include="$(TargetDir)$(TargetName).dll;$(TargetDir)$(TargetName).pdb" Condition="Exists('$(TargetDir)$(TargetName).dll')">
       <Output TaskParameter="Include" ItemName="Assemblies" />
     </CreateItem>
     <Copy SourceFiles="@(Assemblies)" DestinationFolder="$(DotNetNukeDir)\bin\" SkipUnchangedFiles="false" ContinueOnError="true" />

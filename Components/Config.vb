@@ -194,6 +194,16 @@ Namespace Components
             End Set
         End Property
 
+        ' If True, the filter only applies to users without edit rights; editors see all portals (filtered ones get the "filtered" class)
+        Public Property FilterOnlyNonEditors() As Boolean
+            Get
+                Return GetSettingBool("FilterOnlyNonEditors", True)
+            End Get
+            Set(ByVal value As Boolean)
+                ModuleCtrl.UpdateModuleSetting(_moduleId, "FilterOnlyNonEditors", value.ToString())
+            End Set
+        End Property
+
         Public Property FilterInclude() As Boolean
             Get
                 Return GetSettingBool("FilterInclude", True)

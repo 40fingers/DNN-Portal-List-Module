@@ -31,6 +31,17 @@
 
 }
 
+.DnnModule-40FingersPortalList .PortalListItem.filtered{
+	opacity: 0.3;
+	transition: all 0.3s;
+	&:after{
+		content: "*filtered";
+	}
+	&:hover{
+		opacity: 1;
+	}
+}
+
 .DnnModule-40FingersPortalList .plText {
 	font-size: 90%;
 	padding: 0.5em;
